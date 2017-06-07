@@ -1,6 +1,12 @@
-%% now load all fitted electrodes
+%%
+% This script runs the simulation used in Hermes et al:
+%
+%
+% DH 2016
 
-clear
+%% Load all fitted electrodes
+
+clear all
 sim_nr = 2;
 els = 1:22;
 nr_elec = length(els);
@@ -16,8 +22,7 @@ cod_crossval_out = NaN(length(els),7); % r2 for regression models
 cod_crossval_outShuff = NaN(length(els),7); % r2 for regression models
 all_regressbeta   = NaN(length(els),7,4); % betas for regression models
 
-load(fullfile(BOLD_LFPRootPath, 'data', 'boldecog_structure_final'));
-
+load(fullfile(boldlfp_RootPath, 'data', 'boldecog_structure_final'));
 
 for l = 1:nr_elec
     
@@ -27,7 +32,7 @@ for l = 1:nr_elec
     v_area(l) = data{l}.v_area;
     
     % load the simulation outputs 
-    load(fullfile(BOLD_LFPRootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs',sim_nr,elec)),'simulation_outputs')
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs',sim_nr,elec)),'simulation_outputs')
        
     % get simulated ECoG (bb, g, a) and BOLD responses into
     % 'all_simulation' matrix
@@ -35,7 +40,7 @@ for l = 1:nr_elec
     
     % load output from the first model (BB - level, G - coh, A - level)
     prm_set = 1;
-    load(fullfile(BOLD_LFPRootPath, 'data', sprintf('NS_simnr%d_elec%d_NS_prmset%d',sim_nr,elec,prm_set)),'NS')
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_NS_prmset%d',sim_nr,elec,prm_set)),'NS')
     
     % make sure we are using COD rather than r2 for accuracy measure
     NS = ns_summary_statistics(NS); %disp(NS.stats) 
@@ -77,10 +82,6 @@ for whichAreas = 1:2
         % plot R2 from reshuffling
         plot([k-.4 k+.4],[median(median(cod_crossval_outShuff(whichElectrodes,k,:),3),1) ...
             median(median(cod_crossval_outShuff(whichElectrodes,k,:),3),1)],':','Color',[.5 .5 .5],'LineWidth',2)
-%         
-%         % plot R2 from test-retest
-%         plot([k-.4 k+.4],[median(cod_crossval_out(whichElectrodes,9),1) ...
-%             median(cod_crossval_out(whichElectrodes,9),1)],'-','Color',[.5 .5 .5],'LineWidth',2)
         
     end
     
@@ -94,57 +95,14 @@ for whichAreas = 1:2
     
 end
 
-
 set(gcf,'PaperPositionMode','auto')
-fname = fullfile(BOLD_LFPRootPath, 'figures', sprintf('sim%d_r2_plotsV1V23', sim_nr));
+fname = fullfile(boldlfp_RootPath, 'figures', 'Fig9CD');
 print('-dpng','-r300',fname)
 print('-depsc','-r300',fname) 
 
 disp(['R^2: ' num2str(median(cod_crossval_out(v_area==1,:),1))]);
 disp(['R^2: ' num2str(median(cod_crossval_out(v_area==2 | v_area==3,:),1))]);
 
-%%
-
-
-
-
-
-% ---------------
-% CROSS-VALIDATED R^2 when taking all boots
-subplot(1,2,1),hold on % plot V1
-for k=1:size(cod_crossval_out,2)
-    bar(k,mean(cod_crossval_out(v_area==1,k),1),'FaceColor',bar_colors{k})
-    % standard error
-    mean_resp = mean(cod_crossval_out(v_area==1,k),1);
-    st_err = std(cod_crossval_out(v_area==1,k))./sqrt(sum(ismember(v_area,1)));
-    plot([k k],[mean_resp-st_err mean_resp+st_err],'k')
-end
-clear mean_resp st_err
-xlim([0 8]),ylim([0 1])
-set(gca,'XTick',1:7,'XTickLabel',{'bb','g','bb_g','a','bb_a','g_a','bb_g_a'})
-set(gca,'YTick',0:.2:1)
-title('V1 R^2 cross-val')
-
-subplot(1,2,2),hold on % plot V2/V3
-for k=1:size(cod_crossval_out,2)
-    bar(k,mean(cod_crossval_out(v_area==2 | v_area==3,k),1),'FaceColor',bar_colors{k})
-    % standard error
-    mean_resp = mean(cod_crossval_out(v_area==2 | v_area==3,k),1);
-    st_err = std(cod_crossval_out(v_area==2 | v_area==3,k))./sqrt(sum(ismember(v_area,[2 3])));
-    plot([k k],[mean_resp-st_err mean_resp+st_err],'k')
-end
-clear mean_resp st_err
-xlim([0 8]),ylim([0 1])
-set(gca,'XTick',1:7,'XTickLabel',{'bb','g','bb_g','a','bb_a','g_a','bb_g_a'})
-set(gca,'YTick',0:.2:1)
-title('V2/V3 R^2 cross-val')
-
-set(gcf,'PaperPositionMode','auto')
-% print('-dpng','-r300',['../figures/sim' int2str(sim_nr) '/r2_plotsV1V23'])
-% print('-depsc','-r300',['../figures/sim' int2str(sim_nr) '/r2_plotsV1V23']) 
-
-disp(['V1 R^2:' num2str(mean(cod_crossval_out(v_area==1,:),1))])
-disp(['V2 R^2:' num2str(mean(cod_crossval_out(v_area==2 | v_area==3,:),1))])
 
 %% BETA plots averaged for V1 and V2 simulations
 
@@ -204,8 +162,9 @@ for k=1:size(all_regressbeta,2)
     set(gca,'XTick',1:3,'XTickLabel',labels_beta{k},'YTick',-0.4:.2:.8,'YTickLabel',[])
 end
 
-% set(gcf,'PaperPositionMode','auto')
-% print('-dpng','-r300',['../figures/sim' int2str(sim_nr) '/beta_plotsV1V23'])
-% print('-depsc','-r300',['../figures/sim' int2str(sim_nr) '/beta_plotsV1V23'])
+set(gcf,'PaperPositionMode','auto')
+fname = fullfile(boldlfp_RootPath, 'figures', 'Fig9CD_betas');
+print('-dpng','-r300',fname)
+print('-depsc','-r300',fname) 
 
 

@@ -8,7 +8,7 @@
 % DH 2016
 clear all
 
-%% now load simulations fitted to electrodes
+%% load simulations fitted to ECoG data from all electrodes
 
 sim_nr = 2;
 els = 1:1:22;
@@ -26,14 +26,14 @@ all_data = NaN(4,length(els),10); % ECoG / BOLD data
 all_simulation = NaN(4,length(els),10,8); % BOLD simulation
 
 % load the ECoG/fMRI data
-load(fullfile(BOLD_LFPRootPath, 'data', 'boldecog_structure_final'));
+load(fullfile(boldlfp_RootPath, 'data', 'boldecog_structure_final'));
 
 for l = 1:length(els)
     
     elec = els(l);
        
     % load the simulation outputs 
-    load(fullfile(BOLD_LFPRootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs', sim_nr, elec)),'simulation_outputs');
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs', sim_nr, elec)),'simulation_outputs');
 
     v_area(l) = data{l}.v_area;
 
@@ -54,11 +54,6 @@ for l = 1:length(els)
         all_simulation(1,l,[1:size(simulation_outputs,1)],k) = simulation_outputs(:,k,1);
         all_simulation(2,l,[1:size(simulation_outputs,1)],k) = simulation_outputs(:,k,2);
         all_simulation(3,l,[1:size(simulation_outputs,1)],k) = simulation_outputs(:,k,3);
-%         % BOLD baseline subtract and vector length normalize:
-%         % subtract baseline:
-%         y = simulation_outputs(:,k,4)-simulation_outputs(1,k,4);% subtract baseline
-%         y = y/sqrt(sum(y.^2)); % vector length normalize
-%         all_simulation(4,l,[1:size(simulation_outputs,1)],k) = y;
         % BOLD, raw from simulation:
         all_simulation(4,l,[1:size(simulation_outputs,1)],k) = simulation_outputs(:,k,4);
         
@@ -82,9 +77,9 @@ end
 
 cm = lines(length(find(ismember(v_area,1))));
 
-figure('Position',[0 0 700 750])
+figure('Position',[0 0 700 400])
 for k = 1:8
-    subplot(4,4,k),hold on
+    subplot(2,4,k),hold on
     signal_use = 4; % bold
     x = squeeze(all_simulation(signal_use,ismember(v_area,[1]),:,k));% signal, all electrodes all conditions
     y = squeeze(all_data(signal_use,ismember(v_area,[1]),:)); % signal, all electrodes all conditions
@@ -102,10 +97,13 @@ for k = 1:8
     xlabel('simulated bold'),ylabel('measured bold')   
 end
 set(gcf,'PaperPositionMode','auto')
+print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS7_V1'))
+print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS7_V1'))
 
+figure('Position',[0 0 700 400])
 ecog_colors = {'k','m','g'};
 for k = 1:8
-    subplot(4,4,8+k),hold on
+    subplot(2,4,k),hold on
     plot([-1 1],[-1 1],'k')
     for signal_use = 1:3
         x = squeeze(all_simulation(signal_use,ismember(v_area,[1]),:,k));% bb, all electrodes all conditions
@@ -117,16 +115,16 @@ for k = 1:8
 end
 
 set(gcf,'PaperPositionMode','auto')
-fname = fullfile(BOLD_LFPRootPath, 'figures', sprintf('sim%d_simulatedVSdataLFP_BOLD_allV1electrodes_new', sim_nr));
-print('-depsc','-r300',fname)
-print('-dpng','-r300',fname)
+print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS9A_V1'))
+print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS9A_V1'))
+
 
 %% V2/V3: now plot simulation LFP and BOLD output versus data for all electrodes
 cm = lines(length(find(ismember(v_area,[2 3]))));
 
-figure('Position',[0 0 700 750])
+figure('Position',[0 0 700 400])
 for k = 1:8
-    subplot(4,4,k),hold on
+    subplot(2,4,k),hold on
     signal_use = 4; % bold
     x = squeeze(all_simulation(signal_use,ismember(v_area,[2 3]),:,k));% signal, all electrodes all conditions
     y = squeeze(all_data(signal_use,ismember(v_area,[2 3]),:)); % signal, all electrodes all conditions
@@ -143,10 +141,13 @@ for k = 1:8
     xlabel('simulated bold'),ylabel('measured bold')   
 end
 set(gcf,'PaperPositionMode','auto')
+print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS7_V2V3'))
+print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS7_V2V3'))
 
 ecog_colors = {'k','m','g'};
+figure('Position',[0 0 700 400])
 for k = 1:8
-    subplot(4,4,8+k),hold on
+    subplot(2,4,k),hold on
     plot([-1 1],[-1 1],'k')
     for signal_use = 1:3
         x = squeeze(all_simulation(signal_use,ismember(v_area,[2 3]),:,k));% bb, all electrodes all conditions
@@ -158,47 +159,13 @@ for k = 1:8
 end
 
 set(gcf,'PaperPositionMode','auto')
-fname = fullfile(BOLD_LFPRootPath, 'figures', sprintf('sim%d_simulatedVSdataLFP_BOLD_allV23electrodes_new', sim_nr));
+print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS9B_V2V3'))
+print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', 'FigS9B_V2V3'))
 
-print('-painters', '-depsc','-r300',fname)
-print('-dpng','-r300',fname)
-
-%% Figure with R2 for all models
-
-figure('Position',[0 0 300 400]),hold on
-subplot(2,1,1),hold on
-for k = [.25 .5 .75]
-    plot([0 5],[k k],'Color',[.5 .5 .5])
-end
-bar(median(r2_data_fit(1:4,:),2),'FaceColor',[.8 .8 .9])
-errorbar([1:4],median(r2_data_fit(1:4,:),2),std(r2_data_fit(1:4,:),[],2)/sqrt(6),'k.')
-ylim([0 1.01])
-ylabel('r^2')
-xlim([0 5])
-set(gca,'YTick',[0:.5:1],'XTick',[1:4],...
-    'XTickLabel',{'bLgCaL','bLgCaC','bLgLaL','bLgLaC'})
-
-subplot(2,1,2),hold on
-for k =[.25 .5 .75]
-    plot([0 5],[k k],'Color',[.5 .5 .5])
-end
-
-bar(median(r2_data_fit(5:8,:),2),'FaceColor',[.8 .8 .9])
-errorbar([1:4],median(r2_data_fit(5:8,:),2),std(r2_data_fit(5:8,:),[],2)/sqrt(6),'k.')
-% plot([1:8],corr_data_fit,'k.')
-ylim([0 1.01])
-ylabel('r^2')
-xlim([0 5])
-set(gca,'YTick',[0:.5:1],'XTick',[1:4],...
-    'XTickLabel',{'bCgCaL','bCgCaC','bCgLaL','bCgLaC'})
-
-% set(gcf,'PaperPositionMode','auto')
-% print('-depsc','-r300',['../figures/sim' int2str(sim_nr) '/bestModel'])
-% print('-dpng','-r300',['../figures/sim' int2str(sim_nr) '/bestModel'])
 
 %% Make Figure 7C: for one model all r2 simulated versus measured BOLD
 
-figure('Position',[0 0 150 100]),hold on
+figure('Position',[0 0 300 200]),hold on
 model_plot = 1;
 
 subplot(1,2,1),hold on
@@ -214,11 +181,12 @@ plot([1-.4 1+.4],median(r2_data_fit_s(model_plot,v_area==1)) * [1 1], ...
 plot([1-.4 1+.4],median(r2_data_data(v_area==1)) * [1 1], ...
  '-','Color',[.5 .5 .5],'LineWidth',2)
 
- plot([1-.1:.2./(length(y)-1):1+.1],y,'k.','MarkerSize',20)
- plot([1-.1:.2./(length(y)-1):1+.1],y,'y.','MarkerSize',10)
+plot([1-.1:.2./(length(y)-1):1+.1],y,'k.','MarkerSize',20)
+plot([1-.1:.2./(length(y)-1):1+.1],y,'y.','MarkerSize',10)
 
 ylim([-1.1 1])
 set(gca, 'YTick',-1:.5:1);
+ylabel('R^2')
 
 subplot(1,2,2),hold on
 y = r2_data_fit(model_plot,v_area==2 | v_area==3);
@@ -235,11 +203,10 @@ plot([1-.4 1+.4],median(r2_data_fit_s(model_plot,v_area==2 | v_area==3)) * [1 1]
 % plot R2 from test-retest
 plot([1-.4 1+.4],median(r2_data_data(v_area==2 | v_area==3)) * [1 1], ...
  '-','Color',[.5 .5 .5],'LineWidth',2)
+ylabel('R^2')
 
 set(gcf,'PaperPositionMode','auto')
-fname = fullfile(BOLD_LFPRootPath, 'figures', sprintf('Model%d_r2box', model_plot));
- print('-depsc','-r300',fname)
- print('-dpng','-r300',fname)
-
+print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', 'Fig7C'))
+print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', 'Fig7C'))
 
 

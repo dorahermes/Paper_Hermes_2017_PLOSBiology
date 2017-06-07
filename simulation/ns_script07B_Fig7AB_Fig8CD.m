@@ -6,24 +6,160 @@
 %
 % DH 2016
 %
-%% load and plot results for two example electrodes
+%% load and plot results for the example electrodes
+
+%%
+%% Figure 7
+%%
 
 clear all
 sim_nr = 2; % simulation number 2 for paper
-elec = 21;%1:22 % examples electrode V1 - 21, V2 - 18
+electrodes = [21 18];% examples electrode V1 - 21, V2 - 18
+figure_labels = {'A','B'}; % corresponding to electrode 21 shown in 7A and 18 shown in 7B
+
+for el = 1:length(electrodes)
+    elec = electrodes(el);
+    % load the simulation outputs 
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs', sim_nr, elec)),'simulation_outputs')
+
+    % load the ECoG/fMRI data
+    load(fullfile(boldlfp_RootPath, 'data', 'boldecog_structure_final'))
+
+    % load output from the first model (BB - level, G - coh, A - level)
+    prm_set = 1;
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_NS_prmset%d', sim_nr, elec,prm_set)),'NS')
+
+    data_bb = median(data{elec}.bb_all,2);
+    data_g = median(data{elec}.gamma_all,2);
+    data_a = median(data{elec}.alpha_all,2);
+    data_bold = median(nanmean(data{elec}.allboots,2),3)' * mean(data{elec}.norm);%data{elec}.betas * mean(data{elec}.norm); % to get %signal change
+    data_bold_ci = data{elec}.se * mean(data{elec}.norm); % ci = 68% confidence interval across bootstraps
+
+
+    bold_avg        = median(NS.data.bold_bs,2);
+    bb_avg          = median(NS.data.bb,2);
+    gamma_avg       = median(NS.data.gamma,2);
+    alpha_avg       = median(NS.data.alpha,2);
+    bold_ci         = [quantile(NS.data.bold_bs,.16,2) quantile(NS.data.bold_bs,.84,2)];
+    bb_ci           = [quantile(NS.data.bb,.16,2) quantile(NS.data.bb,.84,2)];
+    gamma_ci        = [quantile(NS.data.gamma,.16,2) quantile(NS.data.gamma,.84,2)];
+    alpha_ci        = [quantile(NS.data.alpha,.16,2) quantile(NS.data.alpha,.84,2)];
+
+    num_conditions  = ns_get(NS, 'num_conditions');
+    f               = ns_get(NS, 'f');
+    plot_colors     = cell2mat(data{elec}.colors(:));
+
+    % INPUTS AND OUTPUTS
+    figure('Position',[0 0 300 300])  
+    hold on
+    for m = 1:length(bold_avg)
+        plot(bold_avg(m),data_bold(m),'.','Color',plot_colors(m,:),'MarkerSize',20)
+        % plot simulated errorbar (x-axis variance)
+        plot(bold_ci(m,:),[data_bold(m) data_bold(m)],'-','Color',[.5 .5 .5])
+        % plot data errorbar (y-axis variance)
+        plot([bold_avg(m) bold_avg(m)],data_bold_ci(m,:),'-','Color',[.5 .5 .5])
+    end
+    r = ns_cod(bold_avg,data_bold', true);
+    p = polyfit(bold_avg,data_bold',1);
+    x_line=[min(bold_avg):0.001:max(bold_avg)];
+    plot(x_line,p(1)*x_line + p(2),'k')
+    title(['R^2 = ' num2str(r,2)]);
+    xlim([9.5 15.5]),ylim([-.2 2.2])%ylim([min(data_bold_ci(:))-.2 max(data_bold_ci(:))+.2])
+    ylabel('measured bold')
+    xlabel('simulated bold')
+
+    set(gcf,'PaperPositionMode','auto')
+    print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', ['Fig7' figure_labels{el}]))
+    print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', ['Fig7' figure_labels{el}]))
+
+end
+
+%%
+%% Figure 8
+%%
+
+clear all
+sim_nr = 2; % simulation number 2 for paper
+electrodes = [21 18];%1:22 % examples electrode V1 - 21, V2 - 18
+figure_labels = {'C','D'}; % corresponding to electrode 21 shown in 8C and 18 shown in 8D
+
+for el = 1:length(electrodes)
+    elec = electrodes(el);
+    % load the simulation outputs 
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs', sim_nr, elec)),'simulation_outputs')
+
+    % load the ECoG/fMRI data
+    load(fullfile(boldlfp_RootPath, 'data', 'boldecog_structure_final'))
+
+    % load output from the first model (BB - level, G - coh, A - level)
+    prm_set = 1;
+    load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_NS_prmset%d', sim_nr, elec,prm_set)),'NS')
+
+    data_bb = median(data{elec}.bb_all,2);
+    data_g = median(data{elec}.gamma_all,2);
+    data_a = median(data{elec}.alpha_all,2);
+    data_bold = median(nanmean(data{elec}.allboots,2),3)' * mean(data{elec}.norm);%data{elec}.betas * mean(data{elec}.norm); % to get %signal change
+    data_bold_ci = data{elec}.se * mean(data{elec}.norm); % ci = 68% confidence interval across bootstraps
+
+    bold_avg        = median(NS.data.bold_bs,2);
+    bb_avg          = median(NS.data.bb,2);
+    gamma_avg       = median(NS.data.gamma,2);
+    alpha_avg       = median(NS.data.alpha,2);
+    bold_ci         = [quantile(NS.data.bold_bs,.16,2) quantile(NS.data.bold_bs,.84,2)];
+    bb_ci           = [quantile(NS.data.bb,.16,2) quantile(NS.data.bb,.84,2)];
+    gamma_ci        = [quantile(NS.data.gamma,.16,2) quantile(NS.data.gamma,.84,2)];
+    alpha_ci        = [quantile(NS.data.alpha,.16,2) quantile(NS.data.alpha,.84,2)];
+
+    num_conditions  = ns_get(NS, 'num_conditions');
+    f               = ns_get(NS, 'f');
+    plot_colors     = cell2mat(data{elec}.colors(:));
+    
+    figure,hold on
+    % ---- Plot BOLD v ECoG measures ----------------
+    x_data = {bb_avg, gamma_avg, alpha_avg};
+    x_err = {bb_ci, gamma_ci, alpha_ci};
+    xl     = {'broadband', 'gamma', 'alpha'};
+    for ii = 1:length(x_data)
+        subplot(1,3,ii), hold on
+        p = polyfit(x_data{ii}, bold_avg,1);
+        error_x = x_err{ii};
+        error_y = bold_ci;
+        plot([x_data{ii} x_data{ii}]',error_y','-','Color',[.5 .5 .5]);
+        plot(error_x',[bold_avg bold_avg]','-','Color',[.5 .5 .5]);
+        scatter(x_data{ii}, bold_avg,40,plot_colors), axis tight square
+        hold on; plot(x_data{ii}, polyval(p, x_data{ii}), 'k-', 'LineWidth', 1)
+        reg_out = regstats(bold_avg, x_data{ii});
+        pred_bold = reg_out.beta(1)+x_data{ii}*reg_out.beta(2:end)';
+        xlabel(xl{ii},'FontSize',10), ylabel('BOLD','FontSize',10)
+        title(sprintf('R^2 = %4.2f', ns_cod(pred_bold, bold_avg, false)));
+    end
+
+    set(gcf,'PaperPositionMode','auto')
+    print('-depsc','-r300',fullfile(boldlfp_RootPath,'figures', ['Fig8' figure_labels{el}]))
+    print('-dpng','-r300',fullfile(boldlfp_RootPath,'figures', ['Fig8' figure_labels{el}]))
+
+end
+
+
+
+%%
+%% other checking figure - plot inputs and outputs
+%%
+%% load and plot results for 1 example electrodes
+
+clear all
+sim_nr = 2; % simulation number 2 for paper
+elec = 21;% example electrodes are electrode V1 - 21, V2 - 18
 
 % load the simulation outputs 
-%load(['/Volumes/DoraBigDrive/github/neural_sim_output/data/NS_simnr' int2str(sim_nr) '_elec' int2str(elec) '_simulation_outputs'],'simulation_outputs')
-load(fullfile(BOLD_LFPRootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs', sim_nr, elec)),'simulation_outputs')
+load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_simulation_outputs', sim_nr, elec)),'simulation_outputs')
 
 % load the ECoG/fMRI data
-load(fullfile(BOLD_LFPRootPath, 'data', 'boldecog_structure_final'))
-
+load(fullfile(boldlfp_RootPath, 'data', 'boldecog_structure_final'))
 
 % load output from the first model (BB - level, G - coh, A - level)
 prm_set = 1;
-%load(['/Volumes/DoraBigDrive/github/neural_sim_output/data/NS_simnr' int2str(sim_nr) '_elec' int2str(elec) '_NS_prmset' int2str(prm_set)],'NS')
-load(fullfile(BOLD_LFPRootPath, 'data', sprintf('NS_simnr%d_elec%d_NS_prmset%d', sim_nr, elec,prm_set)),'NS')
+load(fullfile(boldlfp_RootPath, 'data', sprintf('NS_simnr%d_elec%d_NS_prmset%d', sim_nr, elec,prm_set)),'NS')
 
 data_bb = median(data{elec}.bb_all,2);
 data_g = median(data{elec}.gamma_all,2);
@@ -31,8 +167,8 @@ data_a = median(data{elec}.alpha_all,2);
 data_bold = median(nanmean(data{elec}.allboots,2),3)' * mean(data{elec}.norm);%data{elec}.betas * mean(data{elec}.norm); % to get %signal change
 data_bold_ci = data{elec}.se * mean(data{elec}.norm); % ci = 68% confidence interval across bootstraps
 
+%%
 
-%% plot inputs to check
 figure('Position',[0 0 200 200])  
 
 plot_colors     = cell2mat(data{elec}.colors(:));
@@ -67,10 +203,6 @@ for s = 1:length(signal_plot)
     xlim([0 9]),ylim([-.1 1])
     set(gca,'XTick',[1:8])
 end
-
-% set(gcf,'PaperPositionMode','auto')
-% print('-depsc','-r300',['../figures/sim' int2str(sim_nr) '/Channel' int2str(elec) 'model' int2str(prm_set) '_inputs'])
-% print('-dpng','-r300',['../figures/sim' int2str(sim_nr) '/Channel' int2str(elec) 'model' int2str(prm_set) '_inputs'])
 
 %% plot inputs/outputs from a simulation fitted to one ECoG channel
 
@@ -241,10 +373,6 @@ for k = 1:3 % bb, g, a
     xlabel(['simulated ' lfp_output{k}])
 end
 
-% set(gcf,'PaperPositionMode','auto')
-% print('-depsc','-r300',['../figures/sim' int2str(sim_nr) '/Channel' int2str(elec) 'model' int2str(prm_set)])
-% print('-dpng','-r300',['../figures/sim' int2str(sim_nr) '/Channel' int2str(elec) 'model' int2str(prm_set)])
-
 %
 %% plot measured versus predicted LFP and BOLD for all models for one channel
 
@@ -283,15 +411,10 @@ for k = 1:8
     plot(simulation_outputs(:,k,1),data_bb,'k.','MarkerSize',10)
     plot(simulation_outputs(:,k,2),data_g,'m.','MarkerSize',10)
     plot(simulation_outputs(:,k,3),data_a,'g.','MarkerSize',10)
-%     xlim([-0.1 1]),ylim([-0.1 1])
-%     xlim([-1.1 1.1]),ylim([-1.1 1.1])
     axis square
     xlim([-1.5 1.5]),ylim([-1.5 1.5])
     ylabel('measured lfp')
     xlabel('simulated lfp')
 end
 
-% set(gcf,'PaperPositionMode','auto')
-% print('-depsc','-r300',['../figures/sim' int2str(sim_nr) '/Channel' int2str(elec) '_allmodels'])
-% print('-dpng','-r300',['../figures/sim' int2str(sim_nr) '/Channel' int2str(elec) '_allmodels'])
 

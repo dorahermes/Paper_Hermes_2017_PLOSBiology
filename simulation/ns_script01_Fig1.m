@@ -68,13 +68,12 @@ plot(t,signal1.^2 + signal3.^2,'k')
 title('x_1^2 + x_3^2')
 ylim([0 5])
 
-% set(gcf,'PaperPositionMode','auto')
-% print('-dpng','-r300',['../figures/ns_ConceptMethodsFig01'])
-% print('-depsc','-r300',['../figures/ns_ConceptMethodsFig01'])
-
 disp(['power(X1)+power(X2))= ' num2str(mean(signal1.^2) + mean(signal2.^2))])
 disp(['power(X1)+power(X3))= ' num2str(mean(signal1.^2) + mean(signal3.^2))])
 disp(['power(X1+X2)= ' num2str(mean((signal1 + signal2).^2))])
 disp(['power(X1+X3)= ' num2str(mean((signal1 + signal3).^2))])
 
- 
+set(gcf,'PaperPositionMode','auto')
+print('-depsc','-r300',['./figures/Fig1'])
+print('-dpng','-r300',['./figures/Fig1'])
+
