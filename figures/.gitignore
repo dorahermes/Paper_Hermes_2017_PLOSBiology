@@ -1,0 +1,11 @@
+#.gitignore
+#
+
+*.DS_STORE
+*.mat
+*.fig
+*.png
+*.eps
+*.ai
+
+
