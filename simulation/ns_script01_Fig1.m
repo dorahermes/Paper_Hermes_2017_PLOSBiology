@@ -1,10 +1,18 @@
-%%
-% This script generates pannels for Fig 1 from Hermes et al:
+function ns_script01_Fig1
+
+% Reproduce pannels from Figure 1 for the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
+%
+% Run:
+% ns_script01_Fig1
 %
 % This script generates two example signals with two signusoids that are in
 % phase or out of phase and shows the different in the power of the sum and
-% the sum of the power of these two signals
-%
+% the sum of the power of these two signals.
+
 % DH 2016
 
 

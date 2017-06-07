@@ -1,7 +1,12 @@
 function ns_script05_Fig5
-
-%%
-% This script generates pannels for Fig 5 from Hermes et al:
+% Reproduce Figure 5 for the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
+%
+% Run:
+% ns_script05_Fig5
 %
 % Purpose: Simulate neural data - time varying membrane potentials - and
 % show the effects of the three input parameters on the output LFP spectra

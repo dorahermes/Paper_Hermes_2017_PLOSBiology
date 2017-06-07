@@ -1,11 +1,17 @@
 function ns_script03_Fig3
-% This script generates Fig 3 from Hermes et al:
+% Reproduce Figure 3 for the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
+%
+% Run:
+% ns_script03_Fig3
 %
 % This script loads the data, plots a power spectrum from the ECoG data and
 % shows the broadband, gamma and alpha signal changes during each condition
 % for one electrode at the time
 %
-% ns_script03_Fig3
 %
 % DH 2017
 

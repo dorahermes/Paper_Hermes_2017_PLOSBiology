@@ -1,8 +1,12 @@
 function ns_script06A_RunCalibration
-
-%%
-% This script runs the calibration for the simulation and plot some
-% figures to check stuff
+% This script runs the calibration for the simulation from the fillowing paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
+%
+% Run:
+% ns_script02_Fig2
 %
 % Purpose: Simulate neural data - time varying membrane potentials - with a
 % structured set of inputs, such that the relation between the input level

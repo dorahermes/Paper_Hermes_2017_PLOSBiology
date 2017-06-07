@@ -1,8 +1,16 @@
-%%
-% This script runs the simulation used in Hermes et al:
+% Reproduce pannels from Figure 9 from the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
 %
+% Run:
+% ns_script09B_Fig9CD
 %
-% DH 2016
+% Purpose: load simulated neural data and show the relation between LFP and
+% BOLD
+%
+% DH and JW 2016
 
 %% Load all fitted electrodes
 

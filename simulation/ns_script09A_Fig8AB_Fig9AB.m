@@ -1,8 +1,15 @@
-%%
-% This script runs the simulation used in Hermes et al:
+% Reproduce pannels from Figure 8 and 9 from the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
 %
+% Run:
+% ns_script09A_Fig8AB_Fig9AB
 %
-% DH 2016
+% Purpose: load ECoG and fMRI data and show the relation
+%
+% DH and JW 2017
 
 %%
 

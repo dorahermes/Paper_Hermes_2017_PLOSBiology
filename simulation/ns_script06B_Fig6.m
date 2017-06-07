@@ -1,15 +1,21 @@
 function ns_script06B_Fig6
-
-%%
-% This script generates pannels for Fig 6 from Hermes et al:
 %
-% Purpose: Load simulated neural data - time varying membrane potentials -
-% with a structured set of inputs, such that the relation between the input
-% level (amplitude and coherence) of C1, C2 and C3 and the output
-% broadband, gamma and alpha power can be described
+% Reproduce Figure 6 for the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
+%
+% Run:
+% ns_script06_Fig6
+%
+% Purpose: Load simulated neural data and plot the relation between the
+% input level (amplitude and coherence) of C1, C2 and C3 and the output
+% broadband, gamma and alpha power
 %
 % DH 2016
-%
+
+
 %%
 %% Load the lookup table and plot for an example electrode
 %%

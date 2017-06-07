@@ -1,15 +1,25 @@
-%%
-% This script runs the simulation used in Hermes et al:
+% Run the simulation from the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
 %
-% Note that it saves ~36 GB of data: 
-% 8 models (parameter sets) for 22 electrodes
+% Run:
+% ns_script06_Fig6
 %
 % Purpose: Simulate neural data - time varying membrane potentials - that
-% are fit to ECoG data
+% are fit to ECoG data, runs 8 models (parameter sets) for 22 electrodes
 %
-% DH 2016
+% !!! IMPORTANT NOTE !!! 
+% runs for a while and saves ~36 GB of data
+% 
+%
+% DH and JW 2016
 %
 %% 
+
+disp('NOTE: this script saves ~36GB of data')
+
 clear all
 sim_nr = 2;
 

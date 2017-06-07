@@ -1,7 +1,14 @@
-%%
-% This script generates pannels for Fig 4 from Hermes et al
+% Reproduce Figure 4 from the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
 %
-% DH 2017
+% Run:
+% ns_script07D_Fig4
+%
+% Purpose: load simulated neural data - time varying membrane potentials
+% and show how timeseries is created
 
 %% get all the correlation values 
 clear all

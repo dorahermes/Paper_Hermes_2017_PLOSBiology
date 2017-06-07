@@ -1,10 +1,16 @@
-%%
-% This script generates pannels for Fig 7 and 8 from Hermes et al:
+% Reproduce pannels from Figure 7 and 8 from the following paper:
+%  
+%   Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation
+%   between the BOLD signal and the local field potential. PLOS Biology
+%   http://dx.doi.org/...
+%
+% Run:
+% ns_script07B_Fig7AB_Fig8CD
 %
 % Purpose: load simulated neural data - time varying membrane potentials -
 % that are fit to ECoG data and plot results
 %
-% DH 2016
+% DH & JW 2016
 %
 %% load and plot results for the example electrodes
 
