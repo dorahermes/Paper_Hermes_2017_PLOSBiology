@@ -36,7 +36,7 @@ end
 
 %% 
 
-figure('Position',[0 0 800 500])  
+figure('Position',[0 0 600 350])  
 
 % ---- DATA: Plot BOLD correlation with ECoG across frequencies -----
 subplot(2,2,1), set(gca, 'FontSize', 10),hold on
