@@ -29,6 +29,7 @@ ns_script03_Fig3.m
 ns_script05_Fig5.m
 
 ns_script06A_RunCalibration.m 
+
 % !!! IMPORTANT NOTES !!! 
 % 1) This script takes a little while to run
 % 2) This script saves ~8GB of simulated data.
@@ -36,6 +37,7 @@ ns_script06A_RunCalibration.m
 ns_script06B_Fig6.m
 
 ns_script07A_RunSimulation.m
+
 % !!! IMPORTANT NOTES !!! 
 % 1) This script takes a long time to run, and fits 8 models in 22 electrodes.
 % 2) This script saves ~37GB of simulated data.
