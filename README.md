@@ -22,11 +22,11 @@ To use the code, download or clone this github repository, then navigate to the 
  % Download the data (this only needs to be done once)
  boldlfp_downloadData();
  
- % Make the figures
-ns_script01_Fig1.m
-ns_script02_Fig2.m
-ns_script03_Fig3.m
-ns_script05_Fig5.m
+ % Make the figures <br/>
+ns_script01_Fig1.m <br/>
+ns_script02_Fig2.m <br/>
+ns_script03_Fig3.m <br/>
+ns_script05_Fig5.m <br/>
 
 % !!! IMPORTANT NOTES !!! 
 % 1) The following script06A takes a little while to run
