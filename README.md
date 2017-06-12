@@ -29,9 +29,9 @@ ns_script05_Fig5.m <br/>
 ns_script09A_Fig8AB_Fig9AB.m  <br/>
 
 % **script06A IMPORTANT NOTES**  <br/> 
-% 1) script06A takes a little while to run (about 1 hour on a fast macbook pro)  <br/>
-% 2) script06A saves ~8GB of simulated data.  <br/>
-% 3) script06A is required for all following scripts <br/>
+% 1) script06A takes a little while to run (about 1 hour on a fast macbook pro). <br/>
+% 2) script06A saves ~8GB of simulated data. <br/>
+% 3) script06A is required for all following scripts. <br/>
 
 ns_script06A_RunCalibration.m  <br/>
 ns_script06B_Fig6.m  <br/>
@@ -39,7 +39,7 @@ ns_script06B_Fig6.m  <br/>
 % **script07A IMPORTANT NOTES**   <br/>
 % 1) script07A takes a long time to run (~12 hours on a fast macbook pro), and fits 8 models in 22 electrodes.  <br/>
 % 2) script07A saves ~37GB of simulated data.  <br/>
-% 3) script07A is required for all following scripts <br/>
+% 3) script07A is required for all following scripts. <br/>
 
 ns_script07A_RunSimulation.m  <br/>
 ns_script07B_Fig7AB_Fig8CD.m  <br/>
