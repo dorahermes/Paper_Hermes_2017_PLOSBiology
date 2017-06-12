@@ -28,26 +28,25 @@ ns_script02_Fig2.m <br/>
 ns_script03_Fig3.m <br/>
 ns_script05_Fig5.m <br/>
 
-% !!! IMPORTANT NOTES !!! 
-% 1) The following script06A takes a little while to run
-% 2) The following script06S saves ~8GB of simulated data.
+% !!! IMPORTANT NOTES !!!  <br/> 
+% 1) The following script06A takes a little while to run  <br/>
+% 2) The following script06S saves ~8GB of simulated data.  <br/>
 
-ns_script06A_RunCalibration.m 
+ns_script06A_RunCalibration.m  <br/>
+ns_script06B_Fig6.m  <br/>
 
-ns_script06B_Fig6.m
+% !!! IMPORTANT NOTES !!!   <br/>
+% 1) This following script07A takes a long time to run, and fits 8 models in 22 electrodes.  <br/>
+% 2) This following script07A saves ~37GB of simulated data.  <br/>
 
-% !!! IMPORTANT NOTES !!! 
-% 1) This following script07A takes a long time to run, and fits 8 models in 22 electrodes.
-% 2) This following script07A saves ~37GB of simulated data.
+ns_script07A_RunSimulation.m  <br/>
 
-ns_script07A_RunSimulation.m
-
-ns_script07B_Fig7AB_Fig8CD.m
-ns_script07C_Fig7C_S7_S9.m
-ns_script07D_Fig4.m
-ns_script09A_Fig8AB_Fig9AB.m
-ns_script09B_Fig9CD.m
-ns_script10_Fig10.m
+ns_script07B_Fig7AB_Fig8CD.m  <br/>
+ns_script07C_Fig7C_S7_S9.m  <br/>
+ns_script07D_Fig4.m  <br/>
+ns_script09A_Fig8AB_Fig9AB.m  <br/>
+ns_script09B_Fig9CD.m  <br/>
+ns_script10_Fig10.m  <br/>
 
 
 Code (c) Dora Hermes and Jonathan Winawer
