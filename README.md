@@ -1,5 +1,7 @@
+
 # Paper_Hermes_2017_PLOSBiology
-code to download data and generate figures from Hermes, Nguyen and Winawer 2017, PLOS Biology
+
+Code to download data and generate figures from Hermes, Nguyen and Winawer 2017, PLOS Biology
 
 This repository is associated with the publication below.
 Hermes, Nguyen and Winawer (2017). Neuronal synchrony and the relation between the BOLD response and the local field potential. PLOS Biology
